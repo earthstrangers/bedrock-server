@@ -11,14 +11,16 @@ RUN apt-get update && \
 # Download and extract the bedrock server
 RUN if [ "$VERSION" = "latest" ] ; then \
         LATEST_VERSION=$( \
-            curl -v --silent  https://www.minecraft.net/en-us/download/server/bedrock/ 2>&1 | \
-            grep -o 'https://minecraft.azureedge.net/bin-linux/[^"]*' | \
-            sed 's#.*/bedrock-server-##' | sed 's/.zip//') && \
+        curl -v --silent  https://apps.apple.com/US/app/id479516143 2<&1 | \
+        grep "whats-new__latest__version" | \
+        awk -F ">" '{print $2}' | \
+        awk -F "<" '{print $1}' | \
+        awk '{print $2}') && \
         export VERSION=$LATEST_VERSION && \
         echo "Setting VERSION to $LATEST_VERSION" ; \
     else echo "Using VERSION of $VERSION"; \
     fi && \
-    curl https://minecraft.azureedge.net/bin-linux/bedrock-server-${VERSION}.zip --output bedrock-server.zip && \
+    curl https://minecraft.azureedge.net/bin-linux/bedrock-server-${VERSION}.01.zip --output bedrock-server.zip && \
     unzip bedrock-server.zip -d bedrock-server && \
     rm bedrock-server.zip
 
